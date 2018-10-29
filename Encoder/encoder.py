@@ -15,7 +15,8 @@ def number_to_binary_array(n, r):
         res = [0] + res
     return res
 
-class Hamming_encoder():
+
+class HammingEncoder:
 
     def __init__(self, r):
         self.length = 2**r - 1
@@ -38,6 +39,7 @@ class Hamming_encoder():
             return np.array(vector) @ self.G % 2
         elif type(vector) == np.ndarray:
             return vector @ self.G % 2
+
 
 if __name__ == '__main__':
     pass
