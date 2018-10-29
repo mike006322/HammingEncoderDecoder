@@ -1,6 +1,5 @@
 import unittest
 from Decoder import decoder
-import numpy as np
 
 
 class Test(unittest.TestCase):
