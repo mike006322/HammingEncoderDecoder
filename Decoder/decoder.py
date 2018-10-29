@@ -22,6 +22,8 @@ class HammingDecoder:
         self.length = None
         self.dim = None
         self.H = None
+        self.G = None
+        self.SDA = None
 
     def decode(self, word):
         if self.length != len(word):
@@ -34,9 +36,16 @@ class HammingDecoder:
             self.SDA = dict(zip([tuple(h) for h in H], [tuple(i) for i in Id_k]))
             self.SDA[tuple([0]*r)] = tuple([0]*self.length)
             self.H = np.array(H)
+
+            self.G = [number_to_binary_array(2**i, self.dim) for i in reversed(range(self.dim))]
+            while len(self.G) < self.length:
+                self.G.append([0]*self.dim)
+            self.G = np.array(self.G)
         syndrome = np.array([int(i) for i in word]) @ self.H % 2
         e = self.SDA[tuple(syndrome)]
-        return ''.join(str((int(i[0]) + i[1]) % 2) for i in zip(word, e))
+        sent_word = [(int(i[0]) + i[1]) % 2 for i in zip(word, e)]
+        info = [int(i) for i in sent_word] @ self.G
+        return ''.join(str(int(i)) for i in info)
 
 
 if __name__ == '__main__':
