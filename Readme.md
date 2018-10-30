@@ -8,7 +8,3 @@ length.
 
 The decoder takes a codeword, corrects it and removes redundant digits.
 
-*Unfinished!* - Still need to make generator matrix of encoder into
- RREF so that it adds redundancy digits to the end of the word.
- Currently it produces hamming codewords with an unspecified generator.
-

@@ -27,7 +27,8 @@ class Test(unittest.TestCase):
         codeword = '1010010'
         self.assertEqual(e.encode(vector), codeword)
         self.assertEqual(e.encode(np.array(vector)), codeword)
-        print(e.encode(vector))
+        vector2 = [1, 0, 1, 0, 1, 0]
+        self.assertEqual(e.encode(vector2), '000001010101000')
 
 
 if __name__ == '__main__':
