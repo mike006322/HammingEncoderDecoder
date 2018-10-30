@@ -2,6 +2,7 @@
 
 # Hamming code is a linear block code of length 2^r - 1 for some natural number r
 # The dimension, k, of a Hamming code is 2^r - 1 - r and contains 2^k codewords
+# implemented as function and then as a class
 
 import numpy as np
 
@@ -27,7 +28,63 @@ def find_sufficient_r(word):
     return r
 
 
+def make_identity_matrix(n):
+    """
+    input n
+    output list of lists, identity matrix I_n
+    """
+    return [number_to_binary_array(2**i, n) for i in reversed(range(n))]
+
+
+def hamming_encoder(info):
+    """
+    input is string, list or numpyarray of 1's and 0's
+    output is the input with parity check digits such that it's a Hamming Code word of smallest possible length
+    """
+    hamming_encoder.length = None
+    hamming_encoder.dim = None
+    hamming_encoder.H = None
+    hamming_encoder.G = None
+    r = find_sufficient_r(info)
+    if hamming_encoder.length != 2**r - 1:
+        hamming_encoder.length = 2**r - 1
+        hamming_encoder.dim = 2**r - 1 - r
+        # H is parity check matrix
+        H = [number_to_binary_array(i, r) for i in reversed(range(1, 2**r))]
+        hamming_encoder.H = np.array(H)
+        # G is generator matrix
+        G = H[:]
+        Id_r = make_identity_matrix(r)
+        for row in Id_r:
+            G.remove(row)
+        Id_k = make_identity_matrix(hamming_encoder.dim)
+        Id_k = np.array(Id_k)
+        hamming_encoder.G = np.concatenate((Id_k, np.array(G)), axis=1)
+
+    if type(info) == str:
+        if hamming_encoder.dim != len(info):
+            while hamming_encoder.dim != len(info):
+                info = '0' + info
+        res = [int(i) for i in info] @ hamming_encoder.G % 2
+        return ''.join(str(i) for i in res)
+
+    if type(info) == list:
+        if hamming_encoder.dim != len(info):
+            while hamming_encoder.dim != len(info):
+                info = [0] + info
+        return list(info @ hamming_encoder.G % 2)
+
+    if type(info) == np.ndarray:
+        if hamming_encoder.dim != len(info):
+            while hamming_encoder.dim != len(info):
+                np.append([0], info)
+        return info @ hamming_encoder.G % 2
+
+
 class HammingEncoder:
+    """
+    Class implementation of hamming_encoder method
+    """
 
     def __init__(self):
         self.length = None
@@ -45,13 +102,12 @@ class HammingEncoder:
             self.H = np.array(H)
             # G is generator matrix
             G = H[:]
-            Id_r = [number_to_binary_array(2**i, r) for i in range(r)]
+            Id_r = make_identity_matrix(r)
             for row in Id_r:
                 G.remove(row)
-            Id_k = [number_to_binary_array(2**i, self.dim) for i in reversed(range(self.dim))]
+            Id_k = make_identity_matrix(self.dim)
             Id_k = np.array(Id_k)
             self.G = np.concatenate((Id_k, np.array(G)), axis=1)
-            # self.G = np.array(rref(list(self.G)))
 
         if type(info) == str:
             if self.dim != len(info):
@@ -64,15 +120,13 @@ class HammingEncoder:
             if self.dim != len(info):
                 while self.dim != len(info):
                     info = [0] + info
-            res = info @ self.G % 2
-            return ''.join(str(i) for i in res)
+            return list(info @ self.G % 2)
 
         if type(info) == np.ndarray:
             if self.dim != len(info):
                 while self.dim != len(info):
                     np.append([0], info)
-            res = info @ self.G % 2
-            return ''.join(str(i) for i in res)
+            return info @ self.G % 2
 
 
 if __name__ == '__main__':

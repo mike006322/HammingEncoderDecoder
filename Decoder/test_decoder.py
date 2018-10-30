@@ -1,5 +1,6 @@
 import unittest
 from Decoder import decoder
+from Decoder.decoder import hamming_decoder
 
 
 class Test(unittest.TestCase):
@@ -13,6 +14,9 @@ class Test(unittest.TestCase):
         self.assertEqual(d.decode('000'), '0')
         self.assertEqual(d.decode('0000000'), '0000')
         self.assertEqual(d.decode('000001010101000'), '00000101010')
+
+    def test_hamming_decoder(self):
+        self.assertEqual(hamming_decoder('000001010101000'), '00000101010')
 
 
 if __name__ == '__main__':
