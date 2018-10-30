@@ -24,14 +24,14 @@ class Test(unittest.TestCase):
         G = np.array([[1, 0, 0, 0, 1, 1, 1], [0, 1, 0, 0, 1, 1, 0], [0, 0, 1, 0, 1, 0, 1], [0, 0, 0, 1, 0, 1, 1]])
         self.assertEqual(G.all(), e.G.all())
         vector = [1, 0, 1, 0]
-        codeword = [1, 0, 1, 0, 0, 1, 0]
+        codeword = [1, 0, 1, 0, 1, 0, 1]
         self.assertEqual(e.encode(vector), codeword)
         self.assertEqual(e.encode(np.array(vector)).all(), np.array(codeword).all())
         vector2 = '101010'
         self.assertEqual(e.encode(vector2), '000001010101000')
 
     def test_hamming_encoder(self):
-        self.assertEqual(encoder.hamming_encoder('1010'), '1010010')
+        self.assertEqual(encoder.hamming_encoder('1010'), '1010101')
         vector2 = [1, 0, 1, 0, 1, 0]
         self.assertEqual(encoder.hamming_encoder(vector2), [0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0])
 

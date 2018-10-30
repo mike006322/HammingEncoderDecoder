@@ -33,7 +33,7 @@ def hamming_decoder(word):
         hamming_decoder.length = len(word)
         r = find_r(hamming_decoder.length)
         hamming_decoder.dim = 2**r - 1 - r
-        H = [number_to_binary_array(i, r) for i in reversed(range(1, 2**r))]
+        H = [number_to_binary_array(i, r) for i in range(1, 2**r)]
         Id_k = make_identity_matrix(hamming_decoder.length)
         # SDA is 'standard decoding array' where keys are syndromes and values are coset leaders
         hamming_decoder.SDA = dict(zip([tuple(h) for h in H], [tuple(i) for i in Id_k]))
@@ -62,7 +62,7 @@ class HammingDecoder:
             self.length = len(word)
             r = find_r(self.length)
             self.dim = 2**r - 1 - r
-            H = [number_to_binary_array(i, r) for i in reversed(range(1, 2**r))]
+            H = [number_to_binary_array(i, r) for i in range(1, 2**r)]
             Id_k = make_identity_matrix(self.length)
             # SDA is 'standard decoding array' where keys are syndromes and values are coset leaders
             self.SDA = dict(zip([tuple(h) for h in H], [tuple(i) for i in Id_k]))

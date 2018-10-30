@@ -50,7 +50,7 @@ def hamming_encoder(info):
         hamming_encoder.length = 2**r - 1
         hamming_encoder.dim = 2**r - 1 - r
         # H is parity check matrix
-        H = [number_to_binary_array(i, r) for i in reversed(range(1, 2**r))]
+        H = [number_to_binary_array(i, r) for i in range(1, 2**r)]
         hamming_encoder.H = np.array(H)
         # G is generator matrix
         G = H[:]
@@ -98,7 +98,7 @@ class HammingEncoder:
             self.length = 2**r - 1
             self.dim = 2**r - 1 - r
             # H is parity check matrix
-            H = [number_to_binary_array(i, r) for i in reversed(range(1, 2**r))]
+            H = [number_to_binary_array(i, r) for i in range(1, 2**r)]
             self.H = np.array(H)
             # G is generator matrix
             G = H[:]
